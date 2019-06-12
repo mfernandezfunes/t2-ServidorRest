@@ -104,7 +104,7 @@ let controller = {
     },
     removeEmpresa: function (req, res) {
         console.log(`DELETING: ${rutaBase}${req.url}`)
-        let EmpresaId = req.params.id;
+        let empresaId = req.params.id;
         Empresa.findOneAndRemove(empresaId, (err, empresaRemoved) => {
             if (err) return res.status(500).send({
                 message: 'Error borrar los datos.'

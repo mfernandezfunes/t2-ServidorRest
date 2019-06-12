@@ -31,9 +31,8 @@ let controller = {
     },
     getPersona: function (req, res) {
         console.log(`GETTING: ${rutaBase}${req.url}`)
+        let personaId = req.params.id;
 
-        let personaId = req.query.id;
-        console.log(req.query.id)
         if (personaId == null) return res.status(404).send({
             message: 'La persona no existe'
         });
@@ -85,10 +84,10 @@ let controller = {
         })
     },
     updatePersona: function (req, res) {
-        console.log(`PUTTING: ${rutaBase}${req.url}`)
+        console.log(`PUTING: ${rutaBase}${req.url}`)
         let personaId = req.params.id;
         let update = req.body;
-        // {new:true} devuelve el objeto actualizado
+        // {new:true} devuelve el objeto actualizado sino el antiguo
         Persona.findByIdAndUpdate(personaId, update, {
             new: true
         }, (err, personaUpdated) => {
@@ -96,7 +95,7 @@ let controller = {
                 message: 'Error al actualizar los datos.'
             });
             if (!personaUpdated) return res.status(404).send({
-                message: 'No se ha podido actualizar la persona'
+                message: 'No existe la persona para actualizar'
             });
             return res.status(200).send({
                 persona: personaUpdated
@@ -119,7 +118,7 @@ let controller = {
         })
     },
     uploadImage: function (req, res) {
-        console.log(`POSTING: ${rutaBase}${req.url}`)
+        console.log(`PUTING: ${rutaBase}${req.url}`)
         let personaId = req.params.id;
         let fileName = 'Imagen no subida...';
 

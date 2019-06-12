@@ -7,10 +7,10 @@ const PersonaSchema = Schema({
 	dni: String,
 	nombre: String,
 	apellido: String,
+	email: String,
 	genero: String,
 	fechaNac: String,
 	activo: Boolean,
-	email: String,
 	image: String
 });
 
