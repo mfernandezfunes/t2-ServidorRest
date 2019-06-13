@@ -19,7 +19,7 @@ let controller = {
         visita.numeroTarjeta = params.numeroTarjeta;
         visita.observaciones = params.observaciones;
 
-        if ( (visita.idEmpresa == null) || (visita.idPersona == null) || (visita.fechaEntrada == null))
+        if ((visita.idEmpresa == null) || (visita.idPersona == null) || (visita.fechaEntrada == null))
             return res.status(404).send({
                 message: "Faltan datos"
             });
@@ -61,7 +61,10 @@ let controller = {
 
         console.log(`GETTING: ${rutaBase}${req.url}`)
 
-        Visita.find({}).sort('fechaEntrada').exec((err, visitas) => {
+        Visita.find({
+            fechaSalida: {$exists: true},
+            fechaEntrada: {$exists: true}
+        }).sort('fechaEntrada').exec((err, visitas) => {
             if (err) return res.status(500).send({
                 message: 'Error al devolver los datos.'
             });
@@ -78,18 +81,19 @@ let controller = {
         console.log(`GETTING: ${rutaBase}${req.url}`)
 
         Visita.find({
-            fechaSalida: null
-        }).exec((err, visitas) => {
-            if (err) return res.status(500).send({
-                message: 'Error al devolver los datos.'
-            });
-            if (!visitas) return res.status(404).send({
-                message: 'No existen visitas para mostrar'
-            });
-            return res.status(200).send({
-                visitas
-            });
-        })
+                fechaSalida: ""
+            })
+            .exec((err, visitas) => {
+                if (err) return res.status(500).send({
+                    message: 'Error al devolver los datos.'
+                });
+                if (!visitas) return res.status(404).send({
+                    message: 'No existen visitas para mostrar'
+                });
+                return res.status(200).send({
+                    visitas
+                });
+            })
     },
     updateVisita: function (req, res) {
 
@@ -134,7 +138,7 @@ let controller = {
         })
     },
     removeVisita: function (req, res) {
-        
+
         console.log(`DELETING: ${rutaBase}${req.url}`)
 
         let visitaId = req.params.id;
