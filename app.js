@@ -15,6 +15,8 @@ let visita_routes = require('./routes/visita.route');
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/static', express.static('uploads'));
+
 
 // Configurar cabeceras y cors
 app.use((req, res, next) => {

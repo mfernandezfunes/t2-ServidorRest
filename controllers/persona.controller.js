@@ -1,4 +1,6 @@
 'use strict'
+const uniqueFilename = require('unique-filename')
+const base64Img = require('base64-img');
 let Persona = require('../models/persona.model');
 let fs = require('fs');
 
@@ -38,7 +40,7 @@ let controller = {
         });
         Persona.findById(personaId, (err, persona) => {
             if (err) return res.status(500).send({
-                message: 'Error al devolver los datos. getPersona'+err
+                message: 'Error al devolver los datos. getPersona' + err
             });
             if (!persona) return res.status(404).send({
                 message: 'La Persona no existe'
@@ -157,6 +159,60 @@ let controller = {
         } else {
             return res.status(200).send({
                 message: fileName
+            });
+        }
+    },
+    uploadImageCam: function (req, res) {
+        console.log(`PUTING: ${rutaBase}${req.url}`)
+        let personaId = req.params.id
+        let fileName = uniqueFilename('', 'web')
+        let imagen = req.body.picture
+
+        console.log(fileName)
+
+        if ((personaId) && (imagen)) {
+            try {
+                base64Img.img(imagen, `uploads/`, `${fileName}`, function (err, filepath) {
+                    if (err) {
+                        throw err
+                    }
+                    else{
+                        let fileSplit = filepath.split('\\')
+                        let fileName = fileSplit[1]
+
+                        Persona.findOneAndUpdate(personaId, {
+                            image: fileName
+                        }, {
+                            new: true
+                        }, (err, personaUpdated) => {
+                            if (err) return res.status(500).send({
+                                message: 'La imagen no se ha subido.'
+                            });
+                            if (!personaUpdated) return res.status(404).send({
+                                message: 'La persona no existe y no se ha subido la imagen'
+                            });
+                            return res.status(200).send({
+                                files: personaUpdated
+                            });
+                        });
+
+
+
+
+
+
+                    }
+                })
+
+                console.log('Archivo actualizado Satisfactoriamente');
+            } catch (err) {
+                console.log(err)
+            }
+
+
+        } else {
+            return res.status(500).send({
+                message: 'La imagen no se ha subido.'
             });
         }
     }

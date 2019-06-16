@@ -11,11 +11,10 @@ let controller = {
 
         let visita = new Visita();
         let params = req.body;
-
-        visita.idEmpresa = params.idEmpresa;
+        // HARDCODEADO PARA QUE PASE LA EMPRESA FIJA
+        visita.idEmpresa = "5cf854040df693597562138a"; //params.idEmpresa;
         visita.idPersona = params.idPersona;
-        visita.fechaEntrada = params.fechaEntrada;
-        visita.fechaSalida = params.fechaSalida; // pasar NULL en ingreso
+       
         visita.numeroTarjeta = params.numeroTarjeta;
         visita.observaciones = params.observaciones;
 
@@ -23,7 +22,8 @@ let controller = {
             return res.status(404).send({
                 message: "Faltan datos"
             });
-
+        // buscar si no esta creada con el usuario ID
+        
         visita.save((err, visitaStored) => {
             if (err) return res.status(500).send({
                 message: "Error al guardar"
@@ -62,8 +62,12 @@ let controller = {
         console.log(`GETTING: ${rutaBase}${req.url}`)
 
         Visita.find({
-            fechaSalida: {$exists: true},
-            fechaEntrada: {$exists: true}
+            fechaSalida: {
+                $exists: true
+            },
+            fechaEntrada: {
+                $exists: true
+            }
         }).sort('fechaEntrada').exec((err, visitas) => {
             if (err) return res.status(500).send({
                 message: 'Error al devolver los datos.'
@@ -122,8 +126,9 @@ let controller = {
 
         let visitaId = req.params.id;
         let update = req.body;
+       
         // {new:true} devuelve el objeto actualizado
-        Visita.findOneAndUpdate(visitaId, update, {
+        Visita.findOneAndUpdate({_id: visitaId}, {"fechaSalida": new Date()} , {
             new: true
         }, (err, visitaUpdated) => {
             if (err) return res.status(500).send({

@@ -9,6 +9,7 @@ let multipartMiddleware = multipart({ uploadDir: './uploads'});
 
 router.post('/', PersonaController.savePersona);
 router.post('/:id/foto/', multipartMiddleware, PersonaController.uploadImage);
+router.post('/:id/webcam/', multipartMiddleware, PersonaController.uploadImageCam);
 // patch ver para actualizar un campo
 
 router.get('/', PersonaController.getPersonas);
