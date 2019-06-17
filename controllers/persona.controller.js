@@ -165,25 +165,24 @@ let controller = {
     uploadImageCam: function (req, res) {
         console.log(`PUTING: ${rutaBase}${req.url}`)
         let personaId = req.params.id
+
         let fileName = uniqueFilename('', 'web')
         let imagen = req.body.picture
 
-        console.log(fileName)
+        console.log(`Archivo generado: ${fileName}`)
 
         if ((personaId) && (imagen)) {
             try {
                 base64Img.img(imagen, `uploads/`, `${fileName}`, function (err, filepath) {
                     if (err) {
                         throw err
-                    }
-                    else{
+                    } else {
                         let fileSplit = filepath.split('\\')
                         let fileName = fileSplit[1]
-
-                        Persona.findOneAndUpdate(personaId, {
-                            image: fileName
+                        Persona.findOneAndUpdate({
+                            "_id": personaId
                         }, {
-                            new: true
+                            "image": fileName
                         }, (err, personaUpdated) => {
                             if (err) return res.status(500).send({
                                 message: 'La imagen no se ha subido.'
@@ -195,12 +194,6 @@ let controller = {
                                 files: personaUpdated
                             });
                         });
-
-
-
-
-
-
                     }
                 })
 
@@ -215,6 +208,7 @@ let controller = {
                 message: 'La imagen no se ha subido.'
             });
         }
+
     }
 };
 

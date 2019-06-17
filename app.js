@@ -13,9 +13,15 @@ let empresa_routes = require('./routes/empresa.route');
 let visita_routes = require('./routes/visita.route');
 
 // middlewares
+
+app.use(bodyParser.json({limit: '50mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/static', express.static('uploads'));
+
+
 
 
 // Configurar cabeceras y cors
