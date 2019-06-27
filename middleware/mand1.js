@@ -1,1 +1,0 @@
-let transporter = nodemailer.createTransport({ sendMail: true, newline: 'unix', path})

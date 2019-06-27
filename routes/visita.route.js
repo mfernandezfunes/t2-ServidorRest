@@ -6,11 +6,9 @@ let router = express.Router();
 
 router.post('/', VisitaController.createVisita);
 
-// patch ver para actualizar un campo
-
 router.get('/', VisitaController.getVisitas);
 router.get('/open', VisitaController.getVisitasOpen);
-router.get('/:id', VisitaController.getVisita); // ? es opcional el parametro
+router.get('/:id', VisitaController.getVisita); 
 
 
 router.put('/:id', VisitaController.updateVisita);

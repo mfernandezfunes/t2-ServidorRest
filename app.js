@@ -19,10 +19,8 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 app.use('/static', express.static('uploads'));
-
-
-
 
 // Configurar cabeceras y cors
 app.use((req, res, next) => {
@@ -38,7 +36,6 @@ app.use((req, res, next) => {
 app.use('/api/persona', persona_routes);
 app.use('/api/empresa', empresa_routes);
 app.use('/api/visita', visita_routes);
-
 
 // exportar
 module.exports = app;

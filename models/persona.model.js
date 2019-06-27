@@ -5,13 +5,15 @@ const Schema = mongoose.Schema;
 
 const PersonaSchema = Schema({
 	dni: String,
-	nombre: String,
-	apellido: String,
-	email: String,
+	nombre: {type: String, trim: true},
+	apellido: {type: String, trim: true},
+	email: {type: String, lowercase: true, trim: true},
 	genero: String,
 	fechaNac: String,
 	activo: Boolean,
-	image: String
+	image: String,
+	fechaCreacion: {type: Date},
+	fechaModificacion: {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model('Persona', PersonaSchema);

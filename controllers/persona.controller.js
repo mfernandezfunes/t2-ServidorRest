@@ -16,9 +16,12 @@ let controller = {
         persona.nombre = params.nombre;
         persona.apellido = params.apellido;
         persona.email = params.email;
+        persona.genero = params.genero;
         persona.fechaNac = params.fechaNac;
         persona.activo = params.activo;
+        persona.fechaCreacion = new Date();
 
+        console.log(persona)
         persona.save((err, personaStored) => {
             if (err) return res.status(500).send({
                 message: "Error al guardar"
@@ -26,7 +29,7 @@ let controller = {
             if (!personaStored) return res.status(404).send({
                 message: 'No se ha podido guardar la persona'
             })
-            return res.status(200).send({
+            return res.status(201).send({
                 persona: personaStored
             })
         });
@@ -50,30 +53,13 @@ let controller = {
             });
         });
     },
-    getPersonaBy: function (req, res) {
-        console.log(`GETTING: ${rutaBase}${req.url}`)
-
-        let personaBy = req.url;
-        console.log(personaBy)
-        if (personaBy.dni == null) return res.status(404).send({
-            message: 'La persona no existe'
-        });
-
-        Persona.findOne(personaBy, (err, persona) => {
-            if (err) return res.status(500).send({
-                message: 'Error al devolver los datos.'
-            });
-            if (!persona) return res.status(404).send({
-                message: 'La Persona no existe'
-            });
-            return res.status(200).send({
-                persona
-            });
-        });
-    },
     getPersonas: function (req, res) {
-        console.log(`GETTING: ${rutaBase}${req.url}`)
-        Persona.find({}).exec((err, personas) => {
+        console.log(`GETTING QUERY: ${rutaBase}${req.url}`)
+
+        let search = {}
+        search = req.query
+
+        Persona.find(search).exec((err, personas) => {
             if (err) return res.status(500).send({
                 message: 'Error al devolver los datos. getPersonas'
             });
@@ -89,6 +75,8 @@ let controller = {
         console.log(`PUTING: ${rutaBase}${req.url}`)
         let personaId = req.params.id;
         let update = req.body;
+        update.fechaModificacion = new Date();
+        console.log(update)
         // {new:true} devuelve el objeto actualizado sino el antiguo
         Persona.findByIdAndUpdate(personaId, update, {
             new: true
@@ -114,7 +102,7 @@ let controller = {
             if (!personaRemoved) return res.status(404).send({
                 message: 'No se ha podido borrar la persona'
             });
-            return res.status(200).send({
+            return res.status(204).send({
                 persona: personaRemoved
             });
         })

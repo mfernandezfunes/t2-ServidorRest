@@ -16,6 +16,7 @@ let controller = {
         empresa.piso = params.piso;
         empresa.oficina = params.oficina;
         empresa.activa = true;
+        empresa.fechaCreacion = new Date();
 
         empresa.save((err, empresaStored) => {
             if (err) return res.status(500).send({
@@ -24,7 +25,7 @@ let controller = {
             if (!empresaStored) return res.status(404).send({
                 message: 'No se ha podido guardar la empresa'
             })
-            return res.status(200).send({
+            return res.status(201).send({
                 empresa: empresaStored
             })
         });
@@ -50,28 +51,13 @@ let controller = {
             });
         });
     },
-    getEmpresaBy: function (req, res) {
-        let empresaBy = req.body.search;
-        //console.log(empresaBy)
-        if (empresaBy == null) return res.status(404).send({
-            message: 'La empresa no existe'
-        });
-        console.log(empresaBy)
-        Empresa.findOne(empresaBy, (err, empresa) => {
-            if (err) return res.status(500).send({
-                message: 'Error al devolver los datos.'
-            });
-            if (!empresa) return res.status(404).send({
-                message: 'La Empresa no existe'
-            });
-            return res.status(200).send({
-                empresa
-            });
-        });
-    },
     getEmpresas: function (req, res) {
-        console.log(`GETTING: ${rutaBase}${req.url}`)
-        Empresa.find({}).exec((err, empresas) => {
+        console.log(`GETTING QUERY: ${rutaBase}${req.url}`)
+
+        let search = {}
+        search = req.query
+
+        Empresa.find(search).exec((err, empresas) => {
             if (err) return res.status(500).send({
                 message: 'Error al devolver los datos. getEmpresas'
             });
@@ -87,6 +73,8 @@ let controller = {
         console.log(`PUTTING: ${rutaBase}${req.url}`)
         let empresaId = req.params.id;
         let update = req.body;
+        console.log(update)
+        console.log(empresaId)
         // {new:true} devuelve el objeto actualizado
         Empresa.findOneAndUpdate(empresaId, update, {
             new: true
@@ -112,7 +100,7 @@ let controller = {
             if (!empresaRemoved) return res.status(404).send({
                 message: 'No se ha podido borrar la empresa'
             });
-            return res.status(200).send({
+            return res.status(204).send({
                 empresa: empresaRemoved
             });
         })

@@ -6,10 +6,8 @@ let router = express.Router();
 
 router.post('/', EmpresaController.saveEmpresa);
 
-router.get('/listar', EmpresaController.getEmpresas);
-router.get('/:id?', EmpresaController.getEmpresa); // ? es opcional el parametro
-router.get('/search', EmpresaController.getEmpresaBy); //pasar JSON de busqueda solo una persona
-
+router.get('/', EmpresaController.getEmpresas);
+router.get('/:id', EmpresaController.getEmpresa);
 
 router.put('/:id', EmpresaController.updateEmpresa);
 
