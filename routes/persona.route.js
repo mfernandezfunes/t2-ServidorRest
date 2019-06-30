@@ -13,6 +13,7 @@ router.post('/:id/webcam/', multipartMiddleware, PersonaController.uploadImageCa
 
 router.get('/', PersonaController.getPersonas);
 router.get('/:id', PersonaController.getPersona);
+router.get('/:id/foto', PersonaController.getPersonaFoto);
 
 router.put('/:id', PersonaController.updatePersona);
 
