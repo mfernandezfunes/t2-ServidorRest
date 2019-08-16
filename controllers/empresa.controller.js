@@ -1,6 +1,5 @@
 'use strict'
 let Empresa = require('../models/empresa.model');
-let fs = require('fs');
 
 let rutaBase = "/api/empresa"
 

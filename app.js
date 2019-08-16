@@ -11,6 +11,7 @@ const port = process.env.PORT || 3701
 let persona_routes = require('./routes/persona.route');
 let empresa_routes = require('./routes/empresa.route');
 let visita_routes = require('./routes/visita.route');
+let usuario_routes = require('./routes/usuario.route');
 
 // middlewares
 
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 app.use('/api/persona', persona_routes);
 app.use('/api/empresa', empresa_routes);
 app.use('/api/visita', visita_routes);
+app.use('/api/usuario', usuario_routes);
 
 // exportar
 module.exports = app;
