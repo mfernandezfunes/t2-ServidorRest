@@ -12,20 +12,20 @@
   "dependencies": {
     "base64-img": "^1.0.4",
     "bcrypt": "^3.0.6",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.19.0",
     "connect-multiparty": "^2.2.0",
-    "express": "^4.16.4",
+    "express": "^4.17.1",
     "icalendar": "^0.7.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.4.22",
+    "mongoose": "^5.6.9",
     "node-geocoder": "^3.23.0",
-    "nodemailer": "^6.2.1",
+    "nodemailer": "^6.3.0",
     "nodemailer-smtp-transport": "^2.7.4",
     "qr-image": "^3.2.0",
     "swig-email-templates": "^5.0.1",
     "unique-filename": "^1.1.1"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.19.1"
   }
 }
