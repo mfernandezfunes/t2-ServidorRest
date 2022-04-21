@@ -1,3 +1,4 @@
 node_modules/
 qr_codes/
 uploads/
+package-lock.json
